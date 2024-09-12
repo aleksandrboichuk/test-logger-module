@@ -21,7 +21,7 @@ class Logger implements LoggerInterface
     {
         $this->setConfig();
 
-        $defaultType = $this->config['defaultType'] ?? throw new \Exception("Default log type is undefined");
+        $defaultType = $this->getConfig('defaultType') ?? throw new \Exception("Default log type is undefined");
 
         $this->setType($defaultType);
     }
@@ -95,9 +95,9 @@ class Logger implements LoggerInterface
      *
      * @param string|null $key
      *
-     * @return array|null
+     * @return array|string|null
      */
-    public function getConfig(string $key = null): array|null
+    public function getConfig(string $key = null): array|string|null
     {
         if($key){
             return $this->config[$key] ?? null;
