@@ -21,6 +21,7 @@
    + `git clone https://github.com/aleksandrboichuk/test-logger-module.git` - клонування проєкту у робочу директорію
    + `cd test-logger-module`
    + `cd docker && cp docker-compose.example.yml docker-compose.yml` - копіювання конфігураційних файлів для docker-compose
+   + `mkdir data logs` - створення директорій для збереження логів та даних контейнерів
    + `chmod -R 777 data logs ../runtime` - встановлення прав на директорії
    + `docker-compose build && docker-compose up -d` - білд та підняття контейнерів
    + `docker-compose exec php-fpm bash` - перехід у php-fpm контейнер для встановлення композеру (та виконання в майбутньому yii команд)
