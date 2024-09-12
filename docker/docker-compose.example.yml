@@ -1,0 +1,49 @@
+version: "3.3"
+
+networks:
+  app-network:
+    driver: bridge
+
+services:
+  php-fpm:
+    build:
+      context: ./php-fpm
+    volumes:
+      - ./php-fpm/php8.2.ini:/usr/local/etc/php/php.ini
+      - ../:/var/www
+    restart: always
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:9.0
+    platform: linux/amd64
+    restart: always
+    environment:
+      - MYSQL_DATABASE=test-logger-module
+      - MYSQL_USER=test-logger-module
+      - MYSQL_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+      - ./logs/mysql/:/var/log/mysql1
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./logs/nginx/:/var/log/nginx
+      - ../:/var/www
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - php-fpm
+    networks:
+      - app-network
